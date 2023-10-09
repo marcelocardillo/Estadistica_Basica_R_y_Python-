@@ -38,8 +38,17 @@ def TLC(poblacion, n_muestra, num_muestras):
     # Agregar una línea punteada para la media de la población
     plt.axvline(media_poblacion, color="red", linestyle="--")
     
-    plt.show()
+    st.pyplot(plt)
 
-# Ejemplo de uso
+# Interfaz de Streamlit
+st.title("Simulación del Teorema Central del Límite")
+
+# Opciones interactivas para el usuario
+n_muestra = st.slider("Tamaño de la muestra (entre 1 y 100)", min_value=1, max_value=100, value=30)
+num_muestras = st.number_input("Número de muestras (entre 10 y 10,000)", min_value=10, max_value=10000, value=1000)
+
 poblacion = np.random.poisson(lam=3, size=1000)  # Ejemplo de una población Poisson
-TLC(poblacion, n_muestra=30, num_muestras=10000)
+
+# Agregar un botón para iniciar la simulación
+if st.button("Ejecutar Simulación"):
+    TLC(poblacion, n_muestra, num_muestras)
