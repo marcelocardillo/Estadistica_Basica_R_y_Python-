@@ -2,13 +2,13 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
-def demo_TCL_con_densidad_y_etiqueta_media(poblacion, tamano_muestra, num_muestras):
+def TLC(poblacion, n_muestra, num_muestras):
     promedios = np.empty(num_muestras)
     medias_acumuladas = np.empty(num_muestras)
     errores_estandar = np.empty(num_muestras)
 
     for i in range(num_muestras):
-        muestra = np.random.choice(poblacion, size=tamano_muestra, replace=False)
+        muestra = np.random.choice(poblacion, size=n_muestra, replace=False)
         promedios[i] = np.mean(muestra)
         medias_acumuladas[i] = np.mean(promedios[:i+1])
 
@@ -42,4 +42,4 @@ def demo_TCL_con_densidad_y_etiqueta_media(poblacion, tamano_muestra, num_muestr
 
 # Ejemplo de uso
 poblacion = np.random.poisson(lam=3, size=1000)  # Ejemplo de una población Poisson
-demo_TCL_con_densidad_y_etiqueta_media(poblacion, tamano_muestra=30, num_muestras=1000)
+TLC(poblacion, n_muestra=30, num_muestras=10000)
