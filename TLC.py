@@ -17,7 +17,7 @@ def TLC(poblacion, n_muestra, num_muestras):
 
     # Gráfico de líneas
     plt.figure(figsize=(12, 6))
-    plt.subplot(121)
+    plt.subplot(131)
     plt.plot(range(1, num_muestras + 1), medias_acumuladas, color="blue")
     plt.xlabel("Número de Simulación")
     plt.ylabel("Media Acumulada")
@@ -28,7 +28,7 @@ def TLC(poblacion, n_muestra, num_muestras):
     plt.plot(range(1, num_muestras + 1), medias_acumuladas - errores_estandar, color="green", linestyle="--")
 
     # Gráfico de densidad de la población
-    plt.subplot(122)
+    plt.subplot(132)
     plt.hist(poblacion, density=True, color="blue", alpha=0.5)
     
     # Agregar una etiqueta con la media de la población
@@ -37,7 +37,13 @@ def TLC(poblacion, n_muestra, num_muestras):
 
     # Agregar una línea punteada para la media de la población
     plt.axvline(media_poblacion, color="red", linestyle="--")
-    
+
+    # Histograma de la distribución de las medias muestrales
+    plt.subplot(133)
+    plt.hist(promedios, bins=20, color="purple", alpha=0.7)
+    plt.xlabel("Medias Muestrales")
+    plt.ylabel("Frecuencia")
+
     st.pyplot(plt)
 
 # Interfaz de Streamlit
@@ -52,3 +58,6 @@ poblacion = np.random.poisson(lam=3, size=1000)  # Ejemplo de una población Poi
 # Agregar un botón para iniciar la simulación
 if st.button("Ejecutar Simulación"):
     TLC(poblacion, n_muestra, num_muestras)
+
+st.write("La poblacion es una distribucion de poisson de 1000 casos generada aleatoriamente, por lo que sera distinta en cada corrida.Se sugiere cambiar las condiciones del muestreo para observar diferentes escenarios. La linea punteada indica el valor de la media poblacional o verdadero valor del parametro")
+st.write("Marcelo Cardillo. Prof adjunto de Métodos Cuantitativos de la Facultad de Filosofía y Letras. Universidad de Buenos Aires.")
