@@ -77,5 +77,4 @@ if st.button("Calcular"):
 
     except:
         st.error("Error al procesar los datos. Asegúrese de ingresar números o copiar y pegar desde Excel u otras fuentes.")
-        
-        ##run: streamlit run miboot2.py 
+   
