@@ -3,7 +3,7 @@ import numpy as np
 import scipy.stats as stats
 import matplotlib.pyplot as plt
 
-# Define una función para calcular estadísticas adicionales
+# Funciones para calcular la estadística descriptiva
 def calcular_estadisticas_adicionales(datos):
     media = np.mean(datos)
     mediana = np.median(datos)
@@ -14,7 +14,7 @@ def calcular_estadisticas_adicionales(datos):
     
     return media, mediana, desvio_absoluto_mediana, desvio_estandar_media, coeficiente_variacion, cuartiles
 
-# Define una función para calcular la media y el intervalo de confianza de la media a partir de 10,000 remuestreos
+# Función para calcular la media y el intervalo de confianza de la media a partir de 10,000 remuestreos
 def calcular_media_intervalo_confianza(datos, num_remuestreos=10000, nivel_confianza=0.95):
     medias = []
 
@@ -58,6 +58,16 @@ if st.button("Calcular"):
         st.write(f"Coeficiente de Variación: {round(coeficiente_variacion, 3)}%")
         st.write(f"Cuartiles: Q1 = {round(cuartiles[0], 3)}, Q2 (Mediana) = {round(cuartiles[1], 3)}, Q3 = {round(cuartiles[2], 3)}")
         
+        # Agregar histograma de la histograma de la muestra
+        st.subheader("Histograma de la variable")
+        fig_muestra, ax_muestra = plt.subplots()
+        ax_muestra.hist(data)
+        ax_muestra.set_xlabel("Valores de la variable")
+        ax_muestra.set_ylabel("Frecuencia")
+        
+        # Mostrar el histograma de la variable
+        st.pyplot(fig_muestra)
+
         # Agregar histograma de las medias de remuestreo
         st.subheader("Histograma de las Medias de Remuestreo")
         fig, ax = plt.subplots()
@@ -76,5 +86,6 @@ if st.button("Calcular"):
         st.pyplot(fig)
 
     except:
-        st.error("Error al procesar los datos. Asegúrese de ingresar números o copiar y pegar desde Excel u otras fuentes.")
-   
+        st.error("Error al procesar los datos. Asegúrese de ingresar números separados por tabulación o copiar y pegar desde Excel u otras fuentes.")
+
+st.write("Elaboracion. Marcelo Cardillo. Prof adjunto de Métodos Cuantitativos de la Facultad de Filosofía y Letras. Universidad de Buenos Aires.")        
