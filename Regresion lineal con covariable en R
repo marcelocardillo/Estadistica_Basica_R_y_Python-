@@ -1,0 +1,46 @@
+library(ggplot2)
+library(ggiraphExtra)
+library(HistData)
+
+##datos
+data(GaltonFamilies)
+head(GaltonFamilies)
+
+##regresiones
+
+lm1 <- lm(childHeight~midparentHeight,data=GaltonFamilies)
+
+plot(childHeight~midparentHeight,data=GaltonFamilies)
+abline(lm1)
+
+lm2 <- lm(childHeight~midparentHeight+gender,data=GaltonFamilies)
+
+
+##ggplot 
+
+##distribucion de altura de los hijos por genero
+ggplot(data=GaltonFamilies,aes(x=midparentHeight,y=childHeight,color=gender)) +
+  geom_point()+theme_classic()
+
+##modelo de regresion (lm2) con ggplot
+ggplot(GaltonFamilies, aes(x = midparentHeight, y = childHeight, shape = gender, color = gender)) + 
+  geom_point() + 
+  geom_smooth(method = "lm", se = FALSE, fullrange = TRUE) + 
+  labs(x = "Altura de los padres",
+       y = "Altura de los hijos",
+       title = "Relación entre la altura de los padres y la altura de los hijos",
+       color = "Género",
+       shape = "Género") +
+  theme_classic()
+
+
+####raficar automaticamente el modelo de regresion con ggPredict
+ggPredict(lm2,se=TRUE,interactive=T)#interactive=T sirve para explorar el modelo
+
+##comparacion entre modelos 3 formas 
+
+AIC(lm1,lm2)
+
+BIC(lm1,lm2)
+
+anova(lm1,lm2)
