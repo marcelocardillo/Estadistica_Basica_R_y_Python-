@@ -1,0 +1,32 @@
+library(vcdExtra)## grafico de mosaico
+library(archdata)##datos
+library(webr)##graficar funcion 
+
+data(EWBurials)
+
+head(EWBurials)
+
+tabla1=xtabs(~Sex+Goods,data=EWBurials)
+tabla1
+
+
+mosaic(tabla1)##base
+
+mosaic(tabla1, shade=T, labeling_args=list(gp_labels=gpar(fontsize=8),
+      gp_varnames=gpar(fontsize=8)),
+       legend_args=list(fontsize=8))
+
+##test
+
+summary(tabla1)
+
+##stats
+
+chisq=chisq.test(tabla1)
+chisq
+
+plot(chisq)##con webr
+
+##mediante simulacion
+
+chisq.test(tabla1, simulate.p.value = T, B = 10000)
