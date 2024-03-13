@@ -1,0 +1,39 @@
+library(vcdExtra)## grafico de mosaico
+library(ggstatsplot)## graficar tabla bajo test de fisher
+
+Encuesta##objeto en formato "alargado"
+
+# Encuesta
+#     Opinion    Nivel      Frec
+# 1 Obligatoria Estudiantes    0
+# 2    Optativa Estudiantes   12
+# 3 Obligatoria   Graduados   10
+# 4    Optativa   Graduados   22
+
+
+tabla1=xtabs(Frec~Opinion+Nivel, data=Encuesta)##genero tabla para graficos y analisis
+
+tabla1
+
+assoc(tabla1, shade=T)##grafico de asociacion con  color x residuos
+
+summary(tabla1)##test chi2 sobre tabla
+
+chisq.test(tabla1)#idem con correction de Yates x defecto
+
+chisq.test(tabla1, simulate.p.value=T, B=10000)
+
+chisq.test(tabla1)$expected##extraer frecuencias esperadas..son menores a 5 ?
+
+##fisher
+
+fTest=fisher.test(tabla1)#sobre la tabla
+fTest
+
+##graficar
+
+ggbarstats(Encuesta, x = Opinion, y = Nivel, counts=Frec,
+  results.subtitle = F, xlab="Nivel de estudios",
+  subtitle = paste0(
+  "Test exacto de Fisher", ", p= ",
+  round(fTest$p.value, 3)))##valor de p del test
