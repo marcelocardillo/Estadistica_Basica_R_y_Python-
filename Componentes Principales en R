@@ -1,0 +1,67 @@
+library(archdata)
+library(FactoMineR)##graficos y pc
+library(factoextra)##graficos
+
+data(RBGlass1)
+?RBGlass1##chequear casos
+
+head(RBGlass1)
+str(RBGlass1)
+
+Glass.pca <- prcomp(RBGlass1[, -1], scale.=TRUE)##estimacion con matriz de correlacion
+biplot(Glass.pca, xlabs=abbreviate(RBGlass1$Site, 1), cex=.50)##abreviatura sitios
+
+Glass.pca <- prcomp(RBGlass1[, -1], scale.=TRUE)## o con numero de caso
+biplot(Glass.pca, cex=.50)
+
+##elemento dentro de Glass.pca
+
+summary(Glass.pca)##resumen de PCA
+
+head(Glass.pca$x)##componentes
+
+names(Glass.pca)##elementos
+
+
+#####
+##factoextra
+
+get_pca_var(Glass.pca)##extraer matrices 
+
+
+fviz_eig(Glass.pca)##varianza explicada o eigenvalores
+
+#Contribucion variables
+
+fviz_cos2(Glass.pca, choice = "var", axes = 1)##contribucion variables dm 1
+
+##si se utiliza "ind" muestra los casos
+
+fviz_cos2(Glass.pca, choice = "ind", axes = 1)
+
+##biplot
+
+fviz_pca_biplot(Glass.pca, ##se puede utilizar repel=T para evitar superposicion
+                col.var = "#2E9FDF", # variables
+                col.ind = "#696969") #casos
+
+
+fviz_pca_ind(Glass.pca,
+             col.ind =RBGlass1$Site, # color by Site
+             palette = c("lightskyblue",  "orange"),
+             addEllipses = TRUE,##puede selectionarse tipo de elipse
+             legend.title = "Sitios")
+
+##sin elipse
+fviz_pca_ind(Glass.pca,
+             col.ind =RBGlass1$Site, # color by Site
+             palette = c("lightskyblue",  "orange"),
+             legend.title = "Sitios")
+
+
+##contribucion de las valiables como vectores en el espacio de los componentes
+
+fviz_pca_var(Glass.pca,
+             col.var = "contrib", # Color by contributions to the PC
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE)
