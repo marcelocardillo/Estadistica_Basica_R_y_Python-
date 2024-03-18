@@ -1,0 +1,106 @@
+library(stats)
+library(factoextra)##graficos
+library(fpc)##remuestreo y estabilidad de clusters
+library(vegan)##distancias de jaccard
+library(dendextend)
+
+##
+str(beverages)
+
+
+##generar la matriz de distancia
+Bev=dist(beverages)
+
+Bev2=vegdist(beverages, dist="jaccard")
+
+##chequear
+head(Bev)
+##correr el calgoritmo de agrupamiento
+cl1 <- hclust(Bev, method = "average" )
+
+plot(cl1, col="blue")
+
+rect.hclust(cl1, k=2)
+
+####con distancias de jaccard
+cl2 <- hclust(Bev2, method = "average" )
+plot(cl2)
+rect.hclust(cl2, k=2)
+
+####vamos a seguir trabajando con cl1#######
+
+##cortar para generar dos grupos
+gruposcl1 <- cutree(cl1, k=2)
+
+gruposcl1  ##ver
+
+table(groups)##ver n de casos por grupo
+
+##usar fiz cluster de factoextra para graficar los clusters en dos dimensiones
+
+cl1cut <- hcut(Bev, K=2, method = "average" )##indicando el numero de grupos al hacer el analisis
+
+fviz_dend(cl1cut, show_labels=T, rect=T)##rect corta los grupos con linea punteada
+
+fviz_cluster(data=beverages, cl1cut, ellipse.type = "convex")##graficar el cluster en el espacio bidimensional y recortar
+
+###comparacion entre clusters######
+##opcion1
+##graficarlos juntos
+
+par(mfrow=c(1,2))
+
+plot(cl1, col="blue")
+plot(cl2, col="red")
+
+
+##opcion 2 con tanglegram de dextended
+
+hc1<- as.dendrogram(cl1)
+hc2 <- as.dendrogram(cl2)
+tanglegram(cl1,cl2)
+
+
+#### 2da parte evaluacion de agrupamientos##########
+
+##silueta en factoextra
+
+fviz_silhouette(cl1cut, # list containing clustering information
+                palette = "jco", # for the colors of clusters
+                ggtheme = theme_classic())
+
+# Anchura de la silueta: La anchura de la silueta es una medida de la 
+# cohesión y separación de los grupos
+
+##fpc para obtener estadistica de los grupos
+
+cluster.stats(Bev, gruposcl1 )$dunn
+
+
+clusstat=cluster.stats(Bev, gruposcl1 )##matriz de distancias y grupos
+
+clusstat$clus.avg.silwidths## El ancho promedio de silueta para cada grupo.
+
+clusstat$dunn2##un indice alto indica buena separacion de grupos
+
+
+
+####################estabilidad###################
+
+cf2 <- clusterboot(Bev,B=10000,bootmethod=
+                  "boot",clustermethod=disthclustCBI,
+                   k=2, cut="number", method="average", 
+                   showplots=F, count=F, seed=1098)
+
+
+print(cf2)##va a devolver los valores de indice de jaccard de estabilidad de grupos
+
+
+####test de hipotesis multivariado#####
+
+
+
+restest=adonis2(beverages~as.factor(gruposcl1), 
+                permutations =10000, method = "euclidian")
+
+restest
