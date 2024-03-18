@@ -74,15 +74,11 @@ fviz_silhouette(cl1cut, # list containing clustering information
 
 ##fpc para obtener estadistica de los grupos
 
-cluster.stats(Bev, gruposcl1 )$dunn
-
-
 clusstat=cluster.stats(Bev, gruposcl1 )##matriz de distancias y grupos
 
 clusstat$clus.avg.silwidths## El ancho promedio de silueta para cada grupo.
 
 clusstat$dunn2##un indice alto indica buena separacion de grupos
-
 
 
 ####################estabilidad###################
