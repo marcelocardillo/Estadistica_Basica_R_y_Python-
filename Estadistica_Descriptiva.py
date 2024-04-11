@@ -35,7 +35,7 @@ def calcular_media_intervalo_confianza(datos, num_remuestreos=10000, nivel_confi
 st.title("Estadística descriptiva")
 
 # Campo de texto para ingresar los datos
-data_input = st.text_area("Ingrese los datos (copie y pegue desde Excel u otras fuentes)", "")
+data_input = st.text_area("Ingrese los datos (ingrese manualmente separando con tabulaciones o copie y pegue desde Excel u otras fuentes)", "")
 
 # Botón para calcular
 if st.button("Calcular"):
