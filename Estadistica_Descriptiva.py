@@ -58,34 +58,30 @@ if st.button("Calcular"):
         st.write(f"Coeficiente de Variación: {round(coeficiente_variacion, 3)}%")
         st.write(f"Cuartiles: Q1 = {round(cuartiles[0], 3)}, Q2 (Mediana) = {round(cuartiles[1], 3)}, Q3 = {round(cuartiles[2], 3)}")
         
-        # Agregar histograma de la histograma de la muestra
+        # Mostrar histograma de la muestra
         st.subheader("Histograma de la variable")
         fig_muestra, ax_muestra = plt.subplots()
-        ax_muestra.hist(data)
+        ax_muestra.hist(data, bins=20, color="blue", alpha=0.5)
         ax_muestra.set_xlabel("Valores de la variable")
         ax_muestra.set_ylabel("Frecuencia")
-        
-        # Mostrar el histograma de la variable
+        ax_muestra.axvline(media, color='red', linestyle='dashed', linewidth=2, label=f'Media = {round(media, 2)}')
+        ax_muestra.axvline(mediana, color='green', linestyle='dashed', linewidth=2, label=f'Mediana = {round(mediana, 2)}')
+        ax_muestra.legend()
         st.pyplot(fig_muestra)
 
-        # Agregar histograma de las medias de remuestreo
+        # Mostrar histograma de las medias de remuestreo
         st.subheader("Histograma de las Medias de Remuestreo")
-        fig, ax = plt.subplots()
-        ax.hist(medias_remuestreo, bins=20)
-        ax.set_xlabel("Medias de Remuestreo")
-        ax.set_ylabel("Frecuencia")
-        
-        # Agregar líneas para mostrar media y intervalos de confianza
-        ax.axvline(media_boot, color='r', linestyle='dashed', linewidth=2, label='Media Bootstrap')
-        ax.axvline(intervalo_confianza[0], color='g', linestyle='dashed', linewidth=2, label='Intervalo de Confianza (Inferior)')
-        ax.axvline(intervalo_confianza[1], color='b', linestyle='dashed', linewidth=2, label='Intervalo de Confianza (Superior)')
-        
-        # Mostrar leyenda
-        ax.legend()
-        
-        st.pyplot(fig)
+        fig_remuestreo, ax_remuestreo = plt.subplots()
+        ax_remuestreo.hist(medias_remuestreo, bins=20, color="orange", alpha=0.7)
+        ax_remuestreo.axvline(media_boot, color='r', linestyle='dashed', linewidth=2, label='Media Bootstrap')
+        ax_remuestreo.axvline(intervalo_confianza[0], color='g', linestyle='dashed', linewidth=2, label='Intervalo de Confianza (Inferior)')
+        ax_remuestreo.axvline(intervalo_confianza[1], color='b', linestyle='dashed', linewidth=2, label='Intervalo de Confianza (Superior)')
+        ax_remuestreo.set_xlabel("Medias de Remuestreo")
+        ax_remuestreo.set_ylabel("Frecuencia")
+        ax_remuestreo.legend()
+        st.pyplot(fig_remuestreo)
 
     except:
         st.error("Error al procesar los datos. Asegúrese de ingresar números separados por tabulación o copiar y pegar desde Excel u otras fuentes.")
 
-st.write("Elaboracion. Marcelo Cardillo. Prof adjunto de Métodos Cuantitativos de la Facultad de Filosofía y Letras. Universidad de Buenos Aires.")        
+st.write("Elaboración: Marcelo Cardillo, Prof. Adjunto de Métodos Cuantitativos, Facultad de Filosofía y Letras, Universidad de Buenos Aires.")
