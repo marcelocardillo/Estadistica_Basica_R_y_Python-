@@ -34,6 +34,9 @@ def TLC(poblacion, n_muestra, num_muestras):
 
     # Histograma de las medias muestrales
     axs[2].hist(promedios, bins=20, color="purple", alpha=0.7)
+    media_poblacion2 = np.mean(promedios)
+    axs[2].text(media_poblacion2, 0.03, f"Media muestral = {round(media_poblacion2, 2)}", color="black")
+    axs[2].axvline(media_poblacion2, color="black", linestyle="--")
     axs[2].set_xlabel("Medias Muestrales")
     axs[2].set_ylabel("Frecuencia")
 
